@@ -134,4 +134,3 @@ image = np.array([image])
 
 prediction = model.predict(image)
 
-print ("Prediction: " + class_name[np.argmax(prediction[0])])
