@@ -3,7 +3,7 @@ import tensorflow_datasets as tfds
 
 data, metadata = tfds.load('fashion_mnist', as_supervised = True, with_info = True)
 
-data_training, data_test = data['tarin'], data['test']
+data_training, data_test = data['train'], data['test']
 
 class_name = metadata.features['label'].names
 
@@ -74,7 +74,7 @@ historial = model.fit(data_training, epochs=5, steps_per_epoch = math.ceil(num_e
 
 plt.xlabel("# Epoch")
 plt.ylabel("Loss")
-plt.plot(historial.history("loss"))
+plt.plot(historial.history["loss"])
 
 import numpy as np
 
@@ -84,22 +84,22 @@ for images_test, tags_test in data_test.take(1):
   predictions = model.predict(images_test)
 
 def graph_image(i, arr_predictions, real_tags, images):
-  arr_prediction, real_tag, image = arr_predictions[i], real_tags[i], images[i]
+  arr_predictions, real_tag, image = arr_predictions[i], real_tags[i], images[i]
   plt.grid(False)
   plt.xticks([])
   plt.yticks([])
 
-  plt.imshow([..., 0], cmap = plt.cm.binary)
+  plt.imshow(image[..., 0], cmap = plt.cm.binary)
 
-  tag_prediction = np.argmax(arr_prediction)
+  tag_prediction = np.argmax(arr_predictions)
   if tag_prediction == real_tag:
     color = 'green'
   else:
     color = 'red'
   
-  plt.xlabel("{} {:2,0f}% ({})".format(
+  plt.xlabel("{} {:2.0f}% ({})".format(
     class_name[tag_prediction],
-    100*np.max(arr_prediction),
+    100*np.max(arr_predictions),
     class_name[real_tag],
     color = color
   ))
